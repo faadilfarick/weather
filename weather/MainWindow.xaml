@@ -22,8 +22,6 @@
         </ResourceDictionary>
     </Window.Resources>
 
-
-
     <Grid>
         <Button Content="Button" HorizontalAlignment="Left" Margin="103,70,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
         <ComboBox x:Name="cityComboBox" HorizontalAlignment="Left" Margin="68,36,0,0" VerticalAlignment="Top" Width="120">
