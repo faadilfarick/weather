@@ -22,9 +22,10 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="103,70,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <ComboBox x:Name="cityComboBox" HorizontalAlignment="Left" Margin="68,36,0,0" VerticalAlignment="Top" Width="120">
+    <Grid x:Name="mainGrid">
+        <Button x:Name="goButton" Content="Go" HorizontalAlignment="Left" Margin="112,70,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <ComboBox x:Name="cityComboBox" HorizontalAlignment="Left" Margin="68,36,0,0" VerticalAlignment="Top" Width="120" BorderBrush="Black" Background="{x:Null}">
+            <ComboBoxItem Content="New York" BorderBrush="{x:Null}"/>
             <ComboBoxItem Content="Colombo"/>
             <ComboBoxItem Content="Matara"/>
             <ComboBoxItem Content="Galle"/>
@@ -51,16 +52,14 @@
             <ComboBoxItem Content="Anuradhapura"/>
             <ComboBoxItem Content="Kandy"/>
         </ComboBox>
-        <TextBox x:Name="resultTextBox" HorizontalAlignment="Left" Height="131" Margin="43,125,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="417"/>
-        <Button x:Name="addCityButton" Content="Add" HorizontalAlignment="Left" Margin="233,36,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBox x:Name="resultTextBox" HorizontalAlignment="Left" Height="71" Margin="321,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="146" FontSize="36" Foreground="#FF0D42F5" BorderBrush="{x:Null}" Background="{x:Null}"/>
+        <Button x:Name="addCityButton" Content="Add To Favourite" HorizontalAlignment="Left" Margin="233,36,0,0" VerticalAlignment="Top" Width="110"/>
         <Label Content="Select Your City" HorizontalAlignment="Left" Margin="68,4,0,0" VerticalAlignment="Top"/>
-
+        <Label x:Name="cityNameLabel" Content="" HorizontalAlignment="Left" Margin="321,99,0,0" VerticalAlignment="Top" Width="131"/>
     </Grid>
-
-
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            
+
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
 </Controls:MetroWindow>

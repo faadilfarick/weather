@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace weather
 {
+
     public class AllWeather
     {
         public Coord coord { get; set; }
@@ -31,8 +32,8 @@ namespace weather
     public class Main
     {
         public float temp { get; set; }
-        public int pressure { get; set; }
-        public int humidity { get; set; }
+        public float pressure { get; set; }
+        public float humidity { get; set; }
         public float temp_min { get; set; }
         public float temp_max { get; set; }
     }
@@ -40,7 +41,7 @@ namespace weather
     public class Wind
     {
         public float speed { get; set; }
-        public int deg { get; set; }
+        public float deg { get; set; }
     }
 
     public class Clouds
@@ -54,8 +55,8 @@ namespace weather
         public int id { get; set; }
         public float message { get; set; }
         public string country { get; set; }
-        public int sunrise { get; set; }
-        public int sunset { get; set; }
+        public float sunrise { get; set; }
+        public float sunset { get; set; }
     }
 
     public class Weather

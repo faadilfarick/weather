@@ -25,7 +25,7 @@ namespace weather
     public partial class MainWindow
     {
         AllWeather _allWeather;
-        const string byCityName = @"http://api.openweathermap.org/data/2.5/weather?q={0},Lk&appid=6b10c51dd696fece6817ad9d8e9b6936";
+        const string byCityName = @"http://api.openweathermap.org/data/2.5/weather?q={0},&units=metric&appid=6b10c51dd696fece6817ad9d8e9b6936";
         string response;
         public MainWindow()
         {
@@ -42,11 +42,11 @@ namespace weather
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             city = cityComboBox.Text;
-            string ex = string.Format(byCityName, city);
+            string cityName = string.Format(byCityName, city);
             HttpClient httpClinet = new HttpClient();
             try
             {
-                response = await httpClinet.GetStringAsync(ex);
+                response = await httpClinet.GetStringAsync(cityName);
             }
             catch (Exception httpex)
             {
@@ -54,11 +54,21 @@ namespace weather
             }
             _allWeather = JsonConvert.DeserializeObject<AllWeather>(response);
 
-            resultTextBox.Text = Convert.ToString(Math.Round( Convert.ToDouble(_allWeather.main.temp), 2)-273.15);
+            resultTextBox.Text = Convert.ToString(Math.Round( Convert.ToDouble(_allWeather.main.temp)))+ "° C";
+            cityNameLabel.Content = city + ", Sri Lanka";
 
-
-
-            //resultTextBox.Text = response;
+            if(_allWeather.main.temp <= 20)
+            {
+                mainGrid.Background = new ImageBrush(new BitmapImage(new Uri(@"http://finchcoasters.org.uk/wp-content/uploads/2013/09/winter-470x260.jpg")));
+            }
+            else if(_allWeather.main.temp <= 25)
+            {
+                mainGrid.Background = new ImageBrush(new BitmapImage(new Uri(@"https://tribkcpq.files.wordpress.com/2013/06/clouds-mostly-sunny.jpg")));
+            }
+            else
+            {
+                mainGrid.Background = new ImageBrush(new BitmapImage(new Uri(@"https://i0.wp.com/blog.allstate.com/wp-content/uploads/2015/06/Heat-Desert-Thinkstock-cropped.png?resize=684%2C340&ssl=1")));
+            }
         }
     }
 }
