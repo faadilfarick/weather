@@ -32,8 +32,7 @@ namespace weather
             InitializeComponent();
             _allWeather = new AllWeather();
         }
-        static string city;
-       
+        static string city;       
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -41,7 +40,7 @@ namespace weather
         }
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            city = cityComboBox.Text;
+            city = searchTextBox.Text;
             string cityName = string.Format(byCityName, city);
             HttpClient httpClinet = new HttpClient();
             //get the response via http client
@@ -56,7 +55,7 @@ namespace weather
             _allWeather = JsonConvert.DeserializeObject<AllWeather>(response);
             //Temperature
             resultTextBox.Text = Convert.ToString(Math.Round( Convert.ToDouble(_allWeather.main.temp)))+ "° C";
-            cityNameLabel.Content = city + ", Sri Lanka";
+            cityNameLabel.Content = _allWeather.name + ", Sri Lanka";
 
             //Change background of the window according to temperature
             if(_allWeather.main.temp <= 20)
@@ -84,6 +83,52 @@ namespace weather
             //Wind Speed
             windLabel.Content = "Wind Speed";
             windTextBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.wind.speed), 2)) + " m/s";
+
+            //imageBox
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri("http://openweathermap.org/img/w/" + _allWeather.weather[0].icon + ".png");
+            bitmap.EndInit();
+            imageBox.Source = bitmap;
+        }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (StreamWriter str = new StreamWriter("city_weather.txt"))
+            {
+                str.WriteLine("\n" + "City Name "+ _allWeather.name);
+                Favourites fav = new Favourites();
+                fav.Show();
+            }
+        }
+
+        List<string> namelist = new List<string>();
+
+        //Add City to Favourites
+        private void addCityButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (StreamReader str = new StreamReader("cityname.txt"))
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);                
+            }
+
+            namelist.Add(cityNameLabel.Content.ToString());
+
+            string city = string.Join("\n", namelist.ToArray());
+
+            using (StreamWriter str = new StreamWriter("cityname.txt"))
+            {
+                str.WriteLine(city);
+                
+            }
+
         }
     }
 }
