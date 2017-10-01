@@ -44,6 +44,7 @@ namespace weather
             city = cityComboBox.Text;
             string cityName = string.Format(byCityName, city);
             HttpClient httpClinet = new HttpClient();
+            //get the response via http client
             try
             {
                 response = await httpClinet.GetStringAsync(cityName);
@@ -53,10 +54,11 @@ namespace weather
                 MessageBox.Show(httpex.Message + " Check your Internet Connection and Try Again!");
             }
             _allWeather = JsonConvert.DeserializeObject<AllWeather>(response);
-
+            //Temperature
             resultTextBox.Text = Convert.ToString(Math.Round( Convert.ToDouble(_allWeather.main.temp)))+ "° C";
             cityNameLabel.Content = city + ", Sri Lanka";
 
+            //Change background of the window according to temperature
             if(_allWeather.main.temp <= 20)
             {
                 mainGrid.Background = new ImageBrush(new BitmapImage(new Uri(@"http://finchcoasters.org.uk/wp-content/uploads/2013/09/winter-470x260.jpg")));
@@ -69,6 +71,19 @@ namespace weather
             {
                 mainGrid.Background = new ImageBrush(new BitmapImage(new Uri(@"https://i0.wp.com/blog.allstate.com/wp-content/uploads/2015/06/Heat-Desert-Thinkstock-cropped.png?resize=684%2C340&ssl=1")));
             }
+            //end changing background
+
+            //Humidity
+            humidityLabel.Content = "Humidity";
+            humidityTextBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.main.humidity))) + " %";
+
+            //Cloud Condition
+            cloudLabel.Content = "Cloud Codition";
+            cloudTextBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.clouds.all))) + " %";
+
+            //Wind Speed
+            windLabel.Content = "Wind Speed";
+            windTextBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.wind.speed), 2)) + " m/s";
         }
     }
 }
