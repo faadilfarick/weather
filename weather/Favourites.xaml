@@ -15,7 +15,12 @@
             </TabItem>
             <TabItem Header="TabItem">
                 <Grid Background="#FFE5E5E5">
-                    <Button Content="Button" HorizontalAlignment="Left" Margin="369,117,0,0" VerticalAlignment="Top" Width="75" />
+                    <Button Content="Button" HorizontalAlignment="Left" Margin="194,209,0,0" VerticalAlignment="Top" Width="75" />
+                    <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="62" Margin="41,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="133"/>
+                    <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="62" Margin="293,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="133"/>
+                    <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="62" Margin="41,117,0,0" Stroke="Black" VerticalAlignment="Top" Width="133"/>
+                    <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="62" Margin="293,117,0,0" Stroke="Black" VerticalAlignment="Top" Width="133"/>
+                    <Grid HorizontalAlignment="Left" Height="62" Margin="41,10,0,0" VerticalAlignment="Top" Width="124"/>
                 </Grid>
             </TabItem>
         </TabControl>
