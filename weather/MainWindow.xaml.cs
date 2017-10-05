@@ -34,100 +34,35 @@ namespace weather
         }
         private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            upperGrid.Background = new ImageBrush(new BitmapImage(new Uri(@"http://thedesignblitz.com/wp-content/uploads/2014/03/blur_1x-1.jpg")));
             saveButton.Visibility = Visibility.Hidden;
-            addCityButton.Visibility = Visibility.Hidden;
+            setFavouriteButton.Visibility = Visibility.Hidden;
+            setCurrentCityButton.Visibility = Visibility.Hidden;
+            setFavouriteButton.Background = new ImageBrush(new BitmapImage(new Uri(@"https://cdn2.iconfinder.com/data/icons/business-and-internet/512/Star-512.png")));
+            setFavouriteButton.Background = new ImageBrush(new BitmapImage(new Uri(@"https://cdn0.iconfinder.com/data/icons/large-black-icons/512/Favourites_favorites_folder.pngs")));
 
-            //get the response via http client
-            HttpClient httpClinet = new HttpClient();
-            try
-            {
-                response = await httpClinet.GetStringAsync(CityWeather.GetWeatherInfo("Colombo"));
-            }
-            catch (Exception httpex)
-            {
-                MessageBox.Show(httpex.Message + " Check your Internet Connection and Try Again!");
-            }
-            _allWeather = JsonConvert.DeserializeObject<AllWeather>(response);
+            //Calling Weather Details Method
 
-            //Temperature
-            resultTextBox.Text = Math.Round(Convert.ToDouble(_allWeather.main.temp)) + "° C";
-            cityNameLabel.Content = _allWeather.name;
-
-            //Humidity
-            humidityLabel.Content = "Humidity";
-            humidityTextBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.main.humidity))) + " %";
-
-            //Cloud Condition
-            cloudLabel.Content = "Cloud Codition";
-            cloudTextBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.clouds.all))) + " %";
-
-            //Wind Speed
-            windLabel.Content = "Wind Speed";
-            windTextBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.wind.speed), 2)) + " m/s";
-
-            //imageBox
-            var bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri("http://openweathermap.org/img/w/" + _allWeather.weather[0].icon + ".png");
-            bitmap.EndInit();
-            imageBox.Source = bitmap;
-
+            //GetWeatherDetails of the current City;
+            await GetWeatherDetails(GetCurrentCity());
         }
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            //get the response via http client
-            HttpClient httpClinet = new HttpClient();
-            try
+            if (searchTextBox.Text == "")
             {
-                response = await httpClinet.GetStringAsync(CityWeather.GetWeatherInfo(searchTextBox.Text));
-            }
-            catch (Exception httpex)
-            {
-                MessageBox.Show(httpex.Message + " Check your Internet Connection and Try Again!");
-            }
-            _allWeather = JsonConvert.DeserializeObject<AllWeather>(response);
-
-            //Temperature
-            resultTextBox.Text = Math.Round( Convert.ToDouble(_allWeather.main.temp))+ "° C";
-            cityNameLabel.Content = _allWeather.name;            
-
-            //Humidity
-            humidityLabel.Content = "Humidity";
-            humidityTextBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.main.humidity))) + " %";
-
-            //Cloud Condition
-            cloudLabel.Content = "Cloud Codition";
-            cloudTextBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.clouds.all))) + " %";
-
-            //Wind Speed
-            windLabel.Content = "Wind Speed";
-            windTextBox.Text = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.wind.speed), 2)) + " m/s";
-
-            //imageBox
-            var bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri("http://openweathermap.org/img/w/" + _allWeather.weather[0].icon + ".png");
-            bitmap.EndInit();
-            imageBox.Source = bitmap;
-
-            /*Change background of the window according to temperature
-            if(_allWeather.main.temp <= 20)
-            {
-                mainGrid.Background = new ImageBrush(new BitmapImage(new Uri(@"http://finchcoasters.org.uk/wp-content/uploads/2013/09/winter-470x260.jpg")));
-            }
-            else if(_allWeather.main.temp <= 25)
-            {
-                mainGrid.Background = new ImageBrush(new BitmapImage(new Uri(@"https://tribkcpq.files.wordpress.com/2013/06/clouds-mostly-sunny.jpg")));
+                MessageBox.Show("Please Enter City Name");
             }
             else
             {
-                mainGrid.Background = new ImageBrush(new BitmapImage(new Uri(@"https://i0.wp.com/blog.allstate.com/wp-content/uploads/2015/06/Heat-Desert-Thinkstock-cropped.png?resize=684%2C340&ssl=1")));
+                //get the response via http client
+                await GetWeatherDetails(searchTextBox.Text);
+                saveButton.Visibility = Visibility.Visible;
+                setFavouriteButton.Visibility = Visibility.Visible;
+                setCurrentCityButton.Visibility = Visibility.Visible;
             }
-            end changing background*/
-
-            saveButton.Visibility = Visibility.Visible;
-            addCityButton.Visibility = Visibility.Visible;
+                        
         }
+
 
         //Save Weather Information to a Text File
         private void saveButton_Click(object sender, RoutedEventArgs e)
@@ -135,19 +70,20 @@ namespace weather
             //Save File Dialog
             SaveFileDialog dialog = new SaveFileDialog()
             {
+                //Filtering saveing file type
                 Filter = "Text Files(*.txt)|*.txt|All(*.*)|*"
             };
 
             if (dialog.ShowDialog() == true)
             {
-                //Save Selected City's infomation to a text file using SteamWriter
+                //Save Selected City's information to a text file using SteamWriter
                 using (StreamWriter str = new StreamWriter(dialog.FileName))
                 {
-                    str.WriteLine("\n" + "City Name         : " + _allWeather.name);
-                    str.WriteLine("\n" + "Temperature       : " + _allWeather.main.temp + "° C");
-                    str.WriteLine("\n" + "Temperature       : " + _allWeather.main.humidity + "%");
-                    str.WriteLine("\n" + "Cloud Condition   : " + _allWeather.clouds.all + "%");
-                    str.WriteLine("\n" + "Wind Speed        : " + _allWeather.wind.speed + " m/s");
+                    str.WriteLine("City Name         : " + _allWeather.name);
+                    str.WriteLine("Temperature       : " + _allWeather.main.temp + "° C");
+                    str.WriteLine("Humidity          : " + _allWeather.main.humidity + "%");
+                    str.WriteLine("Cloud Condition   : " + _allWeather.clouds.all + "%");
+                    str.WriteLine("Wind Speed        : " + _allWeather.wind.speed + " m/s");
                 }
 
             }
@@ -155,47 +91,132 @@ namespace weather
 
         List<string> namelist = new List<string>();
 
-        //Add City to Favourites
-        private void addCityButton_Click(object sender, RoutedEventArgs e)
+        
+        //Remove placeholder of searchTextBox when clicking on it
+        private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            searchTextBox.Text = "";
+        }
+
+        //Getting Weather Details and Applying them to relavent output areas
+        async Task GetWeatherDetails(string city)
+        {
+            MainWindow mainwindow = new MainWindow();
+            string City = city;
+
+            //Using HttpClient Class to send and recieve HTTP responses from identified classes
+            HttpClient httpClinet = new HttpClient();
             try
             {
-                using (StreamReader str = new StreamReader("cityname.txt"))
-                {
+                //Calling GetWeather Info Method
+                response = await httpClinet.GetStringAsync(CityWeather.passCityName(City));
+            }
+            catch (Exception httpex)
+            {
+                MessageBox.Show(httpex.Message + " Check your Internet Connection and Try Again!");
+            }
 
+            //Converting the JSON response to classes in the AllWeather Class
+            _allWeather = JsonConvert.DeserializeObject<AllWeather>(response);
+
+            //Temperature
+            temperatureLabel.Content = Math.Round(Convert.ToDouble(_allWeather.main.temp)) + "° C";
+            cityNameLabel.Content = _allWeather.name + ", " + _allWeather.sys.country;
+
+            //Humidity
+            humidityLabel.Content = "Humidity   " + Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.main.humidity))) + " %";
+
+            //Cloud Condition
+            cloudLabel.Content = _allWeather.weather[0].description;
+            cloudPercentageLabel.Content = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.clouds.all))) + " % clouds";
+
+            //Wind Speed
+            windLabel.Content = "Wind   " + Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.wind.speed), 2)) + " m/s";
+
+            //Set Relevant image to the image box considering the cloud condition of the given city
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri("http://openweathermap.org/img/w/" + _allWeather.weather[0].icon + ".png");
+            bitmap.EndInit();
+            imageBox.Source = bitmap;
+        }
+
+        //Save Selected City's information to a text file using SteamWriter
+        public void UpdateCurrentCity()
+        {
+            
+            using (StreamWriter str = new StreamWriter("currentCity.txt"))
+                {
+                      str.WriteLine( _allWeather.name);
+                }
+        }
+
+        static public string GetCurrentCity()
+        {
+            string line = "";
+            try
+            {   // Open the text file using a stream reader.
+                using (StreamReader sr = new StreamReader("currentCity.txt"))
+                {
+                    // Read the stream to a string, and write the string to the console.
+                    line = sr.ReadToEnd();
+                    
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                MessageBox.Show(ex.Message);                
+                MessageBox.Show(e.Message + " Unable to Read from file");
             }
+            return line;
+        }
 
-            namelist.Add(cityNameLabel.Content.ToString());
+        private void setCurrentCityButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateCurrentCity();
+        }
 
-            string city = string.Join("\n", namelist.ToArray());
+        //Add City to Favourites
+        private void setFavouriteButton_Click(object sender, RoutedEventArgs e)
+        {
+            setFavouriteButton.Background = new ImageBrush(new BitmapImage(new Uri(@"https://cdn0.iconfinder.com/data/icons/large-black-icons/512/Favourites_favorites_folder.png")));
 
-            using (StreamWriter str = new StreamWriter("cityname.txt"))
-            {
-                str.WriteLine(city);
+            try
+                {
+                    using (StreamReader str = new StreamReader("cityname.txt"))
+                    {
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                namelist.Add(cityNameLabel.Content.ToString());
+
+                string city = string.Join("\n", namelist.ToArray());
+
+                using (StreamWriter str = new StreamWriter("cityname.txt"))
+                {
+                    str.WriteLine(city);
+
+                }
+                /*using (StreamReader readtext = new StreamReader("cityname.txt"))
+                {
+                    namelist.Clear(); //cityname list
+                    string readCity = readtext.ReadToEnd(); // reading city
+                    string[] citiesName = readCity.Split('\n'); // assigning to array
+
+
+                    foreach (string city in citiesName)
+                    {
+
+                        names.Add(city); // adding to list
+                    }
+
+
+                }*/
                 
-            }
-            /*using (StreamReader readtext = new StreamReader("cityname.txt"))
-            {
-                names.Clear(); //cityname list
-                string readCity = readtext.ReadToEnd(); // reading city
-                string[] citiesName = readCity.Split('\n'); // assigning to array
-
-
-                foreach (string city in citiesName)
-                {
-
-                    names.Add(city); // adding to list
-                }
-
-
-            }*/
-
-
         }
     }
 }
