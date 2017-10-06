@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace weather
+namespace weather.Model
 {
     class CityWeather
     {        
