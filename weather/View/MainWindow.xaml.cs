@@ -173,15 +173,9 @@ namespace weather
 
             using (StreamWriter str = new StreamWriter("citynames.txt", true))
             {
-                str.WriteLine(_allWeather.name, true);
+                str.WriteLine( _allWeather.name, true);
 
             }
-        }
-
-        private async void Tile_Click(object sender, RoutedEventArgs e)
-        {
-            tabcontrol.SelectedIndex = 0;
-            await GetWeatherDetails(Convert.ToString(tile1.Content));
         }
         private void getFavouriteCities()
         {

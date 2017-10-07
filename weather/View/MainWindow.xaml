@@ -30,7 +30,6 @@
                     <TextBox x:Name="searchTextBox" HorizontalAlignment="Left" Height="23" Margin="1,-35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="522" Text="Enter a City Name" GotFocus="searchTextBox_GotFocus" Background="#FF086F9E" Foreground="White"/>
                     <Button x:Name="searchButton" Content="Search" HorizontalAlignment="Left" Margin="523,-35,0,0" VerticalAlignment="Top" Width="92" Click="searchButton_Click" Background="{x:Null}" Foreground="Black" BorderBrush="#FF2E6CF0"/>
                     <Label x:Name="temperatureLabel" Content="" HorizontalAlignment="Left" Margin="321,61,0,0" VerticalAlignment="Top" Foreground="#FF0D42F5" Background="{x:Null}" FontSize="55" Grid.Row="1"/>
-                    <Button x:Name="setFavouriteButton" Content="" HorizontalAlignment="Left" Margin="247,44,0,0" VerticalAlignment="Top" Width="59" Click="setFavouriteButton_Click" Foreground="{x:Null}" BorderBrush="{x:Null}" Height="46"  Background="{x:Null}" Grid.Row="1"/>
                     <Label x:Name="cityNameLabel" Content="" HorizontalAlignment="Left" Margin="321,35,0,0" VerticalAlignment="Top" Width="Auto" FontSize="22" Foreground="White" Grid.Row="1"/>
                     <Image x:Name="imageBox" HorizontalAlignment="Left" Height="56" Margin="478,84,0,0" VerticalAlignment="Top" Width="72" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
                         <Image.RenderTransform>
@@ -48,19 +47,23 @@
                     <Label x:Name="windLabel" Content="" HorizontalAlignment="Left" Margin="321,145,0,0" VerticalAlignment="Top" Foreground="White" Background="{x:Null}" Grid.Row="1"/>
                     <Button x:Name="saveWeatherDetailsButton" Content="Save Weather Details" HorizontalAlignment="Left" Margin="404,242,0,0" VerticalAlignment="Top" Width="136" Click="saveButton_Click" BorderBrush="#FF2E6CF0" Background="{x:Null}" Grid.Row="1" Foreground="White"/>
                     <Button x:Name="setCurrentCityButton" Content="Set as Current City" HorizontalAlignment="Left" Margin="22,35,0,0" VerticalAlignment="Top" Width="133" Click="setCurrentCityButton_Click" Background="{x:Null}" Foreground="White" BorderBrush="#FF2E6CF0" Grid.Row="1"/>
-
-
-
+                    <Button x:Name="setFavouriteButton" Content="" HorizontalAlignment="Left" Margin="247,44,0,0" VerticalAlignment="Top" Width="59" Click="setFavouriteButton_Click" Foreground="{x:Null}" BorderBrush="{x:Null}" Height="46" Grid.Row="1">
+                        <Button.Background>
+                            <ImageBrush ImageSource="https://cdn0.iconfinder.com/data/icons/large-black-icons/512/Favourites_favorites_folder.png"/>
+                        </Button.Background>
+                    </Button>
                 </Grid>
             </TabItem>
             <TabItem Header="Fav" FontSize="10" Margin="0,0,0,-220" BorderBrush="#CCFF0000" TabIndex="2">
-                <Grid Background="#FFE5E5E5">
-                    <Controls:Tile x:Name="tile1" Width="Auto" Height="Auto" BorderBrush="#FF0051FF" Background="Black" Click="Tile_Click" Margin="223,197,-389,125" Foreground="#FF009156" Content="London" />
-                    <ComboBox x:Name="favouriteComboBox" HorizontalAlignment="Left" Margin="58,41,-275,0" VerticalAlignment="Top" Width="217" Background="{x:Null}" BorderBrush="#FF000CFF" Height="36"/>
-                    <Button x:Name="goFavouriteButton" Content="Go" HorizontalAlignment="Left" Margin="280,41,-389,0" VerticalAlignment="Top" Width="109" Height="36" FontSize="12" Background="{x:Null}" BorderBrush="#FF000CFF" Click="goFavouriteButton_Click"/>
+                <Grid Background="#FF3C3434">
+                    <ComboBox x:Name="favouriteComboBox" HorizontalAlignment="Left" Margin="58,46,-275,0" VerticalAlignment="Top" Width="217" Background="{x:Null}" BorderBrush="#FF000CFF" Height="36"/>
+                    <Button x:Name="goFavouriteButton" Content="Go" HorizontalAlignment="Left" Margin="280,46,-389,0" VerticalAlignment="Top" Width="109" Height="36" FontSize="12" Background="{x:Null}" BorderBrush="#FF000CFF" Click="goFavouriteButton_Click"/>
+                    <Label x:Name="favouritesLabel" HorizontalAlignment="Left" Margin="58,18,-275,0" VerticalAlignment="Top" Width="217" Background="{x:Null}" BorderBrush="#FF000CFF" Height="23" Content="Select from Favourite cities" FontSize="12"/>
                 </Grid>
             </TabItem>
         </TabControl>
+
+
 
 
     </Grid>
