@@ -42,7 +42,7 @@
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Label x:Name="humidityLabel" Content="" HorizontalAlignment="Left" Margin="424,144,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" Grid.Row="1"/>
+                    <Label x:Name="humidityLabel" Content="" HorizontalAlignment="Left" Margin="421,145,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                     <Label x:Name="cloudLabel" Content="" HorizontalAlignment="Left" Margin="321,125,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.317,-1.09" Foreground="White" Background="{x:Null}" Grid.Row="1"/>
                     <Label x:Name="cloudPercentageLabel" Content="" HorizontalAlignment="Left" Margin="484,76,0,0" VerticalAlignment="Top" Background="{x:Null}" FontSize="10" Foreground="White" Grid.Row="1"/>
                     <Label x:Name="windLabel" Content="" HorizontalAlignment="Left" Margin="321,145,0,0" VerticalAlignment="Top" Foreground="White" Background="{x:Null}" Grid.Row="1"/>
@@ -55,10 +55,14 @@
             </TabItem>
             <TabItem Header="Fav" FontSize="10" Margin="0,0,0,-220" BorderBrush="#CCFF0000" TabIndex="2">
                 <Grid Background="#FFE5E5E5">
-                    <Controls:Tile x:Name="tile1" Width="Auto" Height="Auto" BorderBrush="#FF0051FF" Background="Black" Click="Tile_Click" Margin="39,20,-205,302" Foreground="#FF009156" Content="London" />
+                    <Controls:Tile x:Name="tile1" Width="Auto" Height="Auto" BorderBrush="#FF0051FF" Background="Black" Click="Tile_Click" Margin="223,197,-389,125" Foreground="#FF009156" Content="London" />
+                    <ComboBox x:Name="favouriteComboBox" HorizontalAlignment="Left" Margin="58,41,-275,0" VerticalAlignment="Top" Width="217" Background="{x:Null}" BorderBrush="#FF000CFF" Height="36"/>
+                    <Button x:Name="goFavouriteButton" Content="Go" HorizontalAlignment="Left" Margin="280,41,-389,0" VerticalAlignment="Top" Width="109" Height="36" FontSize="12" Background="{x:Null}" BorderBrush="#FF000CFF" Click="goFavouriteButton_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>
+
+
     </Grid>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>

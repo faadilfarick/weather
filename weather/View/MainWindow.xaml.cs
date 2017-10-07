@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using Microsoft.Win32;
 using weather.ViewModel;
 using weather.Model;
+using System.Windows.Threading;
 
 namespace weather
 {
@@ -46,10 +47,22 @@ namespace weather
                 await GetWeatherDetails(CurrentCity.GetCurrentCity());
             }
             catch{}
-
-            //Favourite Button Load
-            await DisplayTileWeatherDetails(Convert.ToString(tile1.Content));
             
+            //Timer Setup for reshreshing the weather details of the city displayed
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += Timer_Tick;
+            timer.Interval = TimeSpan.FromHours(1);
+            timer.Start();
+
+            async void Timer_Tick(object senderr, EventArgs ee)
+            {
+                await GetWeatherDetails(_allWeather.name);
+                //MessageBox.Show("timer ran");
+            }
+
+            //Call GetFavourite Cities Method
+            getFavouriteCities();
+
         }
         //Searching for a City
         async void searchButton_Click(object sender, RoutedEventArgs e)
@@ -65,16 +78,9 @@ namespace weather
                 {
                     await GetWeatherDetails(searchTextBox.Text);
                 }
-                catch
-                {
-                    
-                }
-                setFavouriteButton.Visibility = Visibility.Visible;
-                setCurrentCityButton.Visibility = Visibility.Visible;
-            }
-                        
+                catch{}
+            }                        
         }
-
 
         //Save Weather Information to a Text File
         private void saveButton_Click(object sender, RoutedEventArgs e)
@@ -130,8 +136,7 @@ namespace weather
 
             //Temperature
             temperatureLabel.Content = Math.Round(Convert.ToDouble(_allWeather.main.temp)) + "° C";
-            //cityNameLabel.Content = _allWeather.name + ", " + _allWeather.sys.country;
-            cityNameLabel.Content = _allWeather.name;
+            cityNameLabel.Content = _allWeather.name + ", " + _allWeather.sys.country; //City name and country
 
             //Humidity
             humidityLabel.Content = "Humidity   " + Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.main.humidity))) + " %";
@@ -141,7 +146,7 @@ namespace weather
             cloudPercentageLabel.Content = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.clouds.all))) + " % clouds";
 
             //Wind Speed
-            windLabel.Content = "Wind   " + Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.wind.speed), 2)) + " m/s";
+            windLabel.Content = "Wind Speed  " + (Math.Round(Convert.ToDouble(_allWeather.wind.speed), 2));
 
             //Set Relevant image to the image box considering the cloud condition of the given city
             var bitmap = new BitmapImage();
@@ -156,7 +161,7 @@ namespace weather
             //Update Current City to a text file using SteamWriter
             using (StreamWriter str = new StreamWriter("currentCity.txt"))
             {
-                    str.WriteLine(_allWeather.name);
+                    str.Write(_allWeather.name);
             }
             
         }
@@ -166,40 +171,11 @@ namespace weather
         {
             setFavouriteButton.Background = new ImageBrush(new BitmapImage(new Uri(@"https://cdn0.iconfinder.com/data/icons/large-black-icons/512/Favourites_favorites_folder.png")));
 
-            try
-            {
-                using (StreamReader str = new StreamReader("citynames.txt"))
-                {
-
-                }
-            }
-            catch{}
-
-            //List for saving favourite cities
-            List <string> cityList = new List<string>();
-            cityList.Add(cityNameLabel.Content.ToString());
-
-            string city = string.Join("\n", cityList.ToArray());
-
-            
-            using (StreamReader readtext = new StreamReader("citynames.txt"))
-            {
-                cityList.Clear(); //cityname list
-                string readCity = readtext.ReadToEnd(); // reading city
-                string[] citiesName = readCity.Split('\n'); // assigning to array
-                
-                foreach (string cityname in citiesName)
-                {
-                    cityList.Add(city); // adding to list
-                }
-                
-            }
             using (StreamWriter str = new StreamWriter("citynames.txt", true))
             {
-                str.WriteLine(city);
+                str.WriteLine(_allWeather.name, true);
 
             }
-
         }
 
         private async void Tile_Click(object sender, RoutedEventArgs e)
@@ -207,24 +183,29 @@ namespace weather
             tabcontrol.SelectedIndex = 0;
             await GetWeatherDetails(Convert.ToString(tile1.Content));
         }
-        //Favourite Tile stuff
-        async Task DisplayTileWeatherDetails(string tile)
+        private void getFavouriteCities()
         {
-            string tileresponse = tile;
-            //Using HttpClient Class to send and recieve HTTP responses from identified classes
-            HttpClient httpClinet = new HttpClient();
-            try
+            //List for saving favourite cities
+            List<string> cityList = new List<string>();
+
+            using (StreamReader readtext = new StreamReader("citynames.txt",true))
             {
-                //Calling GetWeather Info Method
-                tileresponse = await httpClinet.GetStringAsync(CityWeather.passCityName(tileresponse));
+                string readCity = readtext.ReadToEnd(); // reading city
+                string[] citiesName = readCity.Split('\n'); // assigning to array
+
+                foreach (string cityname in citiesName)
+                {
+                    favouriteComboBox.Items.Add(cityname);
+
+                }
+
             }
-            catch { }
+        }
 
-            //Converting the JSON response to classes in the AllWeather Class
-            var _allWeather = JsonConvert.DeserializeObject<AllWeather>(tileresponse);
-
-            //Set Relevant image to the tile considering the cloud condition of the given city
-            tile1.Background = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _allWeather.weather[0].icon + ".png")));
+        private async void goFavouriteButton_Click(object sender, RoutedEventArgs e)
+        {
+            tabcontrol.SelectedIndex = 0;
+            await GetWeatherDetails(Convert.ToString(favouriteComboBox.SelectedValue));
         }
     }
 }
