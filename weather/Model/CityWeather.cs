@@ -25,6 +25,13 @@ namespace weather.Model
             string cityName = string.Format(byCityName, city);
             return cityName;
         }
+        static public string passCityNameForcast(string City)
+        {
+            const string byCityNameForcast = @"http://api.openweathermap.org/data/2.5/forecast?q={0}&appid=6b10c51dd696fece6817ad9d8e9b6936";
+            string city = City;
+            string cityNameForcast = string.Format(byCityNameForcast, city);
+            return cityNameForcast;
+        }
 
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using System.Net.Http;
 using System.IO;
 using Newtonsoft.Json;
@@ -29,40 +30,40 @@ namespace weather
     public partial class MainWindow
     {
         AllWeather _allWeather;
+        ForcastWeather _forcastWeather;
         CurrentCity cc = new CurrentCity();
-        string response;
+        string response,forcastresponse;
         public MainWindow()
         {
             InitializeComponent();
             _allWeather = new AllWeather();
+            _forcastWeather = new ForcastWeather();
         }
         private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             upperGrid.Background = new ImageBrush(new BitmapImage(new Uri(@"http://thedesignblitz.com/wp-content/uploads/2014/03/blur_1x-1.jpg")));
-            setFavouriteButton.Background = new ImageBrush(new BitmapImage(new Uri(@"https://cdn0.iconfinder.com/data/icons/large-black-icons/512/Favourites_favorites_folder.pngs")));
-
-            //GetWeatherDetails of the current City By calling Get Weather Details Methods
             try
             {
+                //GetWeatherDetails of the current City By calling Get Weather Details Methods
                 await GetWeatherDetails(CurrentCity.GetCurrentCity());
             }
-            catch{}
+            catch { }                       
             
-            //Timer Setup for reshreshing the weather details of the city displayed
+            //Timer Setup for reshreshing the weather details of the city displayed each hour
             DispatcherTimer timer = new DispatcherTimer();
             timer.Tick += Timer_Tick;
             timer.Interval = TimeSpan.FromHours(1);
-            timer.Start();
-
-            async void Timer_Tick(object senderr, EventArgs ee)
-            {
-                await GetWeatherDetails(_allWeather.name);
-                //MessageBox.Show("timer ran");
-            }
+            timer.Start();            
 
             //Call GetFavourite Cities Method
             getFavouriteCities();
-
+            //Set Favourites button icon according to favourited or not
+            SetFavouriteButtonIcon();
+        }
+        async void Timer_Tick(object sender, EventArgs e)
+        {
+            await GetWeatherDetails(_allWeather.name);
+            //MessageBox.Show("timer ran");
         }
         //Searching for a City
         async void searchButton_Click(object sender, RoutedEventArgs e)
@@ -79,7 +80,8 @@ namespace weather
                     await GetWeatherDetails(searchTextBox.Text);
                 }
                 catch{}
-            }                        
+            }
+            SetFavouriteButtonIcon();
         }
 
         //Save Weather Information to a Text File
@@ -125,18 +127,22 @@ namespace weather
             {
                 //Calling GetWeather Info Method
                 response = await httpClinet.GetStringAsync(CityWeather.passCityName(City));
+                forcastresponse = await httpClinet.GetStringAsync(CityWeather.passCityNameForcast(City));
             }
-            catch (Exception httpex)
+            catch
             {
-                MessageBox.Show(httpex.Message + " Check your Internet Connection and Try Again!");
+                await this.ShowMessageAsync("Not Connected", message: "Unable to Connect to Internet! Please check your connection");
             }
 
             //Converting the JSON response to classes in the AllWeather Class
             _allWeather = JsonConvert.DeserializeObject<AllWeather>(response);
+            _forcastWeather = JsonConvert.DeserializeObject<ForcastWeather>(forcastresponse);
+
 
             //Temperature
             temperatureLabel.Content = Math.Round(Convert.ToDouble(_allWeather.main.temp)) + "° C";
-            cityNameLabel.Content = _allWeather.name + ", " + _allWeather.sys.country; //City name and country
+            //cityNameLabel.Content = _allWeather.name + ", " + _allWeather.sys.country; //City name and country
+            cityNameLabel.Content = _allWeather.name; //City name and country
 
             //Humidity
             humidityLabel.Content = "Humidity   " + Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.main.humidity))) + " %";
@@ -166,41 +172,83 @@ namespace weather
             
         }
 
-        //Add City to Favourites
+        //Add/Remove City to Favourites
         private void setFavouriteButton_Click(object sender, RoutedEventArgs e)
         {
-            setFavouriteButton.Background = new ImageBrush(new BitmapImage(new Uri(@"https://cdn0.iconfinder.com/data/icons/large-black-icons/512/Favourites_favorites_folder.png")));
-
-            using (StreamWriter str = new StreamWriter("citynames.txt", true))
+            //Remove a city from favourites
+            if(favouriteComboBox.Items.Contains(_allWeather.name))
             {
-                str.WriteLine( _allWeather.name, true);
-
+                favouriteComboBox.Items.Remove(_allWeather.name);
+                cityList.Remove(_allWeather.name);
+                File.WriteAllText("citynames.txt", String.Empty);
+                foreach (var line in cityList)
+                {
+                    using (StreamWriter str = new StreamWriter("citynames.txt", true))
+                    {
+                        str.WriteLine(line, true);
+                    }
+                }
+                setFavouriteButton.Background = new ImageBrush(new BitmapImage(new Uri(@"https://cdn2.iconfinder.com/data/icons/business-and-internet/512/Star-512.png")));
+                this.ShowMessageAsync("Removed", "The City was removed from favourites");
+            }
+            else
+            {
+                //Adding a city to favourites
+                using (StreamWriter str = new StreamWriter("citynames.txt", true))
+                {
+                    str.WriteLine(_allWeather.name, true);
+                }
+                favouriteComboBox.Items.Add(_allWeather.name);
+                setFavouriteButton.Background = new ImageBrush(new BitmapImage(new Uri(@"https://cdn0.iconfinder.com/data/icons/large-black-icons/512/Favourites_favorites_folder.png")));
+                this.ShowMessageAsync("Added to Favourites", Convert.ToString(cityNameLabel.Content));
+            }       
+        }
+        void SetFavouriteButtonIcon()
+        {
+            if (cityList.Contains(_allWeather.name))
+            {
+                //this.ShowMessageAsync("Already Favourited","");
+                setFavouriteButton.Background = new ImageBrush(new BitmapImage(new Uri(@"https://cdn0.iconfinder.com/data/icons/large-black-icons/512/Favourites_favorites_folder.png")));
+            }
+            else
+            {
+                setFavouriteButton.Background = new ImageBrush(new BitmapImage(new Uri(@"https://cdn2.iconfinder.com/data/icons/business-and-internet/512/Star-512.png")));
             }
         }
+	    //List for saving favourite cities
+        List<string> cityList = new List<string>();
+
         private void getFavouriteCities()
         {
-            //List for saving favourite cities
-            List<string> cityList = new List<string>();
-
-            using (StreamReader readtext = new StreamReader("citynames.txt",true))
+            try
             {
-                string readCity = readtext.ReadToEnd(); // reading city
-                string[] citiesName = readCity.Split('\n'); // assigning to array
-
-                foreach (string cityname in citiesName)
+                string path = System.AppDomain.CurrentDomain.BaseDirectory + @"\citynames.txt";
+                if (File.Exists(path))
                 {
-                    favouriteComboBox.Items.Add(cityname);
-
+                    string[] lineOfContents = File.ReadAllLines(path);
+                    foreach (var line in lineOfContents)
+                    {
+                        favouriteComboBox.Items.Add(line.ToString());
+                        cityList.Add(line);
+                    }
                 }
-
             }
+            catch { }
         }
 
         private async void goFavouriteButton_Click(object sender, RoutedEventArgs e)
         {
-            tabcontrol.SelectedIndex = 0;
-            await GetWeatherDetails(Convert.ToString(favouriteComboBox.SelectedValue));
+            if (favouriteComboBox.SelectedIndex == -1)
+            {
+                await this.ShowMessageAsync("Not Selected", "Favouriye City not Selected or not Available");
+            }
+            else
+            {
+                tabcontrol.SelectedIndex = 0;
+                await GetWeatherDetails(Convert.ToString(favouriteComboBox.SelectedValue));
+            }
         }
+        
     }
 }
 

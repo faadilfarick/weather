@@ -47,14 +47,10 @@
                     <Label x:Name="windLabel" Content="" HorizontalAlignment="Left" Margin="321,145,0,0" VerticalAlignment="Top" Foreground="White" Background="{x:Null}" Grid.Row="1"/>
                     <Button x:Name="saveWeatherDetailsButton" Content="Save Weather Details" HorizontalAlignment="Left" Margin="404,242,0,0" VerticalAlignment="Top" Width="136" Click="saveButton_Click" BorderBrush="#FF2E6CF0" Background="{x:Null}" Grid.Row="1" Foreground="White"/>
                     <Button x:Name="setCurrentCityButton" Content="Set as Current City" HorizontalAlignment="Left" Margin="22,35,0,0" VerticalAlignment="Top" Width="133" Click="setCurrentCityButton_Click" Background="{x:Null}" Foreground="White" BorderBrush="#FF2E6CF0" Grid.Row="1"/>
-                    <Button x:Name="setFavouriteButton" Content="" HorizontalAlignment="Left" Margin="247,44,0,0" VerticalAlignment="Top" Width="59" Click="setFavouriteButton_Click" Foreground="{x:Null}" BorderBrush="{x:Null}" Height="46" Grid.Row="1">
-                        <Button.Background>
-                            <ImageBrush ImageSource="https://cdn0.iconfinder.com/data/icons/large-black-icons/512/Favourites_favorites_folder.png"/>
-                        </Button.Background>
-                    </Button>
+                    <Button x:Name="setFavouriteButton" Content="" HorizontalAlignment="Left" Margin="247,44,0,0" VerticalAlignment="Top" Width="59" Click="setFavouriteButton_Click" Foreground="{x:Null}" BorderBrush="{x:Null}" Height="55" Background="{x:Null}"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Fav" FontSize="10" Margin="0,0,0,-220" BorderBrush="#CCFF0000" TabIndex="2">
+            <TabItem x:Name="Favarite" Header="Fav" FontSize="10" Margin="0,0,0,-220" BorderBrush="#CCFF0000" TabIndex="2">
                 <Grid Background="#FF3C3434">
                     <ComboBox x:Name="favouriteComboBox" HorizontalAlignment="Left" Margin="58,46,-275,0" VerticalAlignment="Top" Width="217" Background="{x:Null}" BorderBrush="#FF000CFF" Height="36"/>
                     <Button x:Name="goFavouriteButton" Content="Go" HorizontalAlignment="Left" Margin="280,46,-389,0" VerticalAlignment="Top" Width="109" Height="36" FontSize="12" Background="{x:Null}" BorderBrush="#FF000CFF" Click="goFavouriteButton_Click"/>

@@ -15,28 +15,27 @@ namespace weather.Model
         {
             string line = "";
             try
-            {   // Open the text file using a stream reader.
+            {
+                // Open the text file using a stream reader.
                 using (StreamReader sr = new StreamReader("currentCity.txt"))
                 {
-                    //Check Whether the currentCity File is empty                
-                    if(String.IsNullOrWhiteSpace(Convert.ToString(sr)))
+                    //Read the stream to a string, and write the string to the console.
+                    line = sr.ReadToEnd();
+                    if (line == "")
                     {
-                        //If the currentCity file is empty value "Colombo" will be set to it since Colombo is assumed as the default Location
-                        line = "Colombo";
+                        return "Colombo";
                     }
                     else
                     {
-                        // Read the stream to a string, and write the string to the console.
-                        line = sr.ReadToEnd();
+                        return line;
                     }
-
                 }
             }
-            catch (Exception e)
+            catch
             {
-                MessageBox.Show(e.Message + " Unable to Read from file");
+                return "Colombo";
             }
-            return line;
+            
         }
     }
 }
