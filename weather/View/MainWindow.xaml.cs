@@ -42,6 +42,7 @@ namespace weather
         private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             upperGrid.Background = new ImageBrush(new BitmapImage(new Uri(@"http://thedesignblitz.com/wp-content/uploads/2014/03/blur_1x-1.jpg")));
+            favUpperGrid.Background = new ImageBrush(new BitmapImage(new Uri(@"http://thedesignblitz.com/wp-content/uploads/2014/03/blur_1x-1.jpg")));
             try
             {
                 //GetWeatherDetails of the current City By calling Get Weather Details Methods
@@ -59,6 +60,7 @@ namespace weather
             getFavouriteCities();
             //Set Favourites button icon according to favourited or not
             SetFavouriteButtonIcon();
+            refreshButton.Background = new ImageBrush(new BitmapImage(new Uri(@"http://downloadicons.net/sites/default/files/refresh-button-icon-56615.png")));
         }
         async void Timer_Tick(object sender, EventArgs e)
         {
@@ -113,53 +115,6 @@ namespace weather
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             searchTextBox.Text = "";
-        }
-
-        //Getting Weather Details and Applying them to relavent output areas
-        async Task GetWeatherDetails(string city)
-        {
-            MainWindow mainwindow = new MainWindow();
-            string City = city;
-
-            //Using HttpClient Class to send and recieve HTTP responses from identified classes
-            HttpClient httpClinet = new HttpClient();
-            try
-            {
-                //Calling GetWeather Info Method
-                response = await httpClinet.GetStringAsync(CityWeather.passCityName(City));
-                forcastresponse = await httpClinet.GetStringAsync(CityWeather.passCityNameForcast(City));
-            }
-            catch
-            {
-                await this.ShowMessageAsync("Not Connected", message: "Unable to Connect to Internet! Please check your connection");
-            }
-
-            //Converting the JSON response to classes in the AllWeather Class
-            _allWeather = JsonConvert.DeserializeObject<AllWeather>(response);
-            _forcastWeather = JsonConvert.DeserializeObject<ForcastWeather>(forcastresponse);
-
-
-            //Temperature
-            temperatureLabel.Content = Math.Round(Convert.ToDouble(_allWeather.main.temp)) + "° C";
-            //cityNameLabel.Content = _allWeather.name + ", " + _allWeather.sys.country; //City name and country
-            cityNameLabel.Content = _allWeather.name; //City name and country
-
-            //Humidity
-            humidityLabel.Content = "Humidity   " + Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.main.humidity))) + " %";
-
-            //Cloud Condition
-            cloudLabel.Content = _allWeather.weather[0].description;
-            cloudPercentageLabel.Content = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.clouds.all))) + " % clouds";
-
-            //Wind Speed
-            windLabel.Content = "Wind Speed  " + (Math.Round(Convert.ToDouble(_allWeather.wind.speed), 2));
-
-            //Set Relevant image to the image box considering the cloud condition of the given city
-            var bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri("http://openweathermap.org/img/w/" + _allWeather.weather[0].icon + ".png");
-            bitmap.EndInit();
-            imageBox.Source = bitmap;
         }
 
         private void setCurrentCityButton_Click(object sender, RoutedEventArgs e)
@@ -248,7 +203,98 @@ namespace weather
                 await GetWeatherDetails(Convert.ToString(favouriteComboBox.SelectedValue));
             }
         }
-        
+
+        private async void refreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            await GetWeatherDetails(_allWeather.name);
+        }
+        //Getting Weather Details and Applying them to relavent output areas
+        async Task GetWeatherDetails(string city)
+        {
+            MainWindow mainwindow = new MainWindow();
+            string City = city;
+
+            //Using HttpClient Class to send and recieve HTTP responses from identified classes
+            HttpClient httpClinet = new HttpClient();
+            try
+            {
+                //Calling GetWeather Info Method
+                response = await httpClinet.GetStringAsync(CityWeather.passCityName(City));
+                forcastresponse = await httpClinet.GetStringAsync(CityWeather.passCityNameForcast(City));
+            }
+            catch
+            {
+                await this.ShowMessageAsync("Not Connected", message: "Unable to Connect to Internet! Please check your connection");
+            }
+
+            //Converting the JSON response to classes in the AllWeather Class
+            _allWeather = JsonConvert.DeserializeObject<AllWeather>(response);
+            _forcastWeather = JsonConvert.DeserializeObject<ForcastWeather>(forcastresponse);
+
+            //Temperature
+            temperatureLabel.Content = Math.Round(Convert.ToDouble(_allWeather.main.temp)) + "° C";
+            //cityNameLabel.Content = _allWeather.name + ", " + _allWeather.sys.country; //City name and country
+            cityNameLabel.Content = _allWeather.name + ", " + _allWeather.sys.country; //City name and country
+
+            //Humidity
+            humidityLabel.Content = "Humidity   " + Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.main.humidity))) + " %";
+
+            //Cloud Condition
+            cloudLabel.Content = _allWeather.weather[0].description;
+            cloudPercentageLabel.Content = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.clouds.all))) + " % clouds";
+
+            //Wind Speed
+            windLabel.Content = "Wind Speed  " + (Math.Round(Convert.ToDouble(_allWeather.wind.speed), 2)) + " m/s";
+
+            //Set Relevant image to the image box considering the cloud condition of the given city
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri("http://openweathermap.org/img/w/" + _allWeather.weather[0].icon + ".png");
+            bitmap.EndInit();
+            imageBox.Source = bitmap;
+
+            //Day1 Forecast
+            Forecast1DayLabel.Content = Convert.ToString(GetDate(_forcastWeather.list[0].dt).DayOfWeek);
+            Forecast1TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[0].main.temp)) + "° C";
+            Forecast1DescLabel.Content = _forcastWeather.list[0].weather[0].description;
+            Forecast1Rectangle.Fill = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _forcastWeather.list[0].weather[0].icon + ".png")));
+
+            //Day2 Forecast
+            Forecast2DayLabel.Content = Convert.ToString(GetDate(_forcastWeather.list[1].dt).DayOfWeek);
+            Forecast2TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[1].main.temp)) + "° C";
+            Forecast2DescLabel.Content = _forcastWeather.list[1].weather[0].description;
+            Forecast2Rectangle.Fill = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _forcastWeather.list[1].weather[0].icon + ".png")));
+
+            //Day3 Forecast
+            Forecast3DayLabel.Content = Convert.ToString(GetDate(_forcastWeather.list[2].dt).DayOfWeek);
+            Forecast3TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[2].main.temp)) + "° C";
+            Forecast3DescLabel.Content = _forcastWeather.list[2].weather[0].description;
+            Forecast3Rectangle.Fill = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _forcastWeather.list[2].weather[0].icon + ".png")));
+
+            //Day4 Forecast
+            Forecast4DayLabel.Content = Convert.ToString(GetDate(_forcastWeather.list[3].dt).DayOfWeek);
+            Forecast4TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[3].main.temp)) + "° C";
+            Forecast4DescLabel.Content = _forcastWeather.list[3].weather[0].description;
+            Forecast4Rectangle.Fill = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _forcastWeather.list[3].weather[0].icon + ".png")));
+
+            //Day5 Forecast
+            Forecast5DayLabel.Content = string.Format("{0}",GetDate(_forcastWeather.list[4].dt).DayOfWeek);
+            Forecast5TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[4].main.temp)) + "° C";
+            Forecast5DescLabel.Content = _forcastWeather.list[4].weather[0].description;
+            Forecast5Rectangle.Fill = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _forcastWeather.list[4].weather[0].icon + ".png")));
+        }
+
+        private async void refreshButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            await (GetWeatherDetails(_allWeather.name));
+        }
+
+        DateTime GetDate(double miliseconds)
+        {
+            DateTime day = new System.DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).ToLocalTime();
+            day = day.AddSeconds(miliseconds).ToLocalTime();
+            return day;
+        }
     }
 }
 

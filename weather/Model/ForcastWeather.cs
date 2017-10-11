@@ -14,6 +14,7 @@ namespace weather.Model
         public int cnt { get; set; }
         public List[] list { get; set; }
         public City city { get; set; }
+        public Coord coord { get; set; }
     }
 
     public class City
@@ -50,7 +51,7 @@ namespace weather.Model
         public float pressure { get; set; }
         public float sea_level { get; set; }
         public float grnd_level { get; set; }
-        public int humidity { get; set; }
+        public float humidity { get; set; }
         public float temp_kf { get; set; }
     }
 
