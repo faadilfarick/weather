@@ -124,6 +124,7 @@ namespace weather
             {
                     str.Write(_allWeather.name);
             }
+            this.ShowMessageAsync("Done!", Convert.ToString(cityNameLabel.Content) + " set as the launch location");
             
         }
 
@@ -203,10 +204,12 @@ namespace weather
                 await GetWeatherDetails(Convert.ToString(favouriteComboBox.SelectedValue));
             }
         }
-
         private async void refreshButton_Click(object sender, RoutedEventArgs e)
         {
-            await GetWeatherDetails(_allWeather.name);
+            //Make user feel the app is updated while calling the GetWeatherDetails Method
+            tabcontrol.SelectedIndex = 1;
+            await (GetWeatherDetails(_allWeather.name));
+            tabcontrol.SelectedIndex = 0;
         }
         //Getting Weather Details and Applying them to relavent output areas
         async Task GetWeatherDetails(string city)
@@ -218,7 +221,7 @@ namespace weather
             HttpClient httpClinet = new HttpClient();
             try
             {
-                //Calling GetWeather Info Method
+                //Calling Current Weather and Forecast
                 response = await httpClinet.GetStringAsync(CityWeather.passCityName(City));
                 forcastresponse = await httpClinet.GetStringAsync(CityWeather.passCityNameForcast(City));
             }
@@ -297,11 +300,6 @@ namespace weather
 
             //homeTab.Header = new ImageBrush(new BitmapImage(new Uri(@"https://cdn3.iconfinder.com/data/icons/streamline-icon-set-free-pack/48/Streamline-18-512.pngs")));
             //FavTab.Header = new ImageSource(@"https://d30y9cdsu7xlg0.cloudfront.net/png/59948-200.png");
-        }
-
-        private async void refreshButton_Click_1(object sender, RoutedEventArgs e)
-        {
-            await (GetWeatherDetails(_allWeather.name));
         }
         DateTime GetDate(double miliseconds)
         {

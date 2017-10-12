@@ -17,7 +17,7 @@ namespace weather.Model
         public string cloud_condition { get; set; }
         public double wind_speed { get; set; }
 
-        //Calling the OpenWeatheMap API by passing given city name
+        //Getting Current Weather Details by Calling the OpenWeatheMap API passing given city name
         static public string passCityName(string City)
         {
             const string byCityName = @"http://api.openweathermap.org/data/2.5/weather?q={0},&units=metric&appid=6b10c51dd696fece6817ad9d8e9b6936";
@@ -25,6 +25,7 @@ namespace weather.Model
             string cityName = string.Format(byCityName, city);
             return cityName;
         }
+        //Getting Seven day Weather Forecast by Calling OpenWeatherMap API passing given city name
         static public string passCityNameForcast(string City)
         {
             const string byCityNameForcast = @"http://api.openweathermap.org/data/2.5/forecast/daily?q={0},&units=metric&appid=542ffd081e67f4512b705f89d2a611b2";
