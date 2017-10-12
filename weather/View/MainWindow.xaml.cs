@@ -244,7 +244,7 @@ namespace weather
             cloudPercentageLabel.Content = Convert.ToString(Math.Round(Convert.ToDouble(_allWeather.clouds.all))) + " % clouds";
 
             //Wind Speed
-            windLabel.Content = "Wind Speed  " + (Math.Round(Convert.ToDouble(_allWeather.wind.speed), 2)) + " m/s";
+            windLabel.Content = "Wind  " + (Math.Round(Convert.ToDouble(_allWeather.wind.speed), 2)) + " m/s";
 
             //Set Relevant image to the image box considering the cloud condition of the given city
             var bitmap = new BitmapImage();
@@ -255,40 +255,54 @@ namespace weather
 
             //Day1 Forecast
             Forecast1DayLabel.Content = Convert.ToString(GetDate(_forcastWeather.list[0].dt).DayOfWeek);
-            Forecast1TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[0].main.temp)) + "° C";
+            Forecast1TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[0].temp.day)) + "° C";
             Forecast1DescLabel.Content = _forcastWeather.list[0].weather[0].description;
             Forecast1Rectangle.Fill = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _forcastWeather.list[0].weather[0].icon + ".png")));
 
             //Day2 Forecast
             Forecast2DayLabel.Content = Convert.ToString(GetDate(_forcastWeather.list[1].dt).DayOfWeek);
-            Forecast2TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[1].main.temp)) + "° C";
+            Forecast2TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[1].temp.day)) + "° C";
             Forecast2DescLabel.Content = _forcastWeather.list[1].weather[0].description;
             Forecast2Rectangle.Fill = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _forcastWeather.list[1].weather[0].icon + ".png")));
 
             //Day3 Forecast
             Forecast3DayLabel.Content = Convert.ToString(GetDate(_forcastWeather.list[2].dt).DayOfWeek);
-            Forecast3TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[2].main.temp)) + "° C";
+            Forecast3TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[2].temp.day)) + "° C";
             Forecast3DescLabel.Content = _forcastWeather.list[2].weather[0].description;
             Forecast3Rectangle.Fill = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _forcastWeather.list[2].weather[0].icon + ".png")));
 
             //Day4 Forecast
             Forecast4DayLabel.Content = Convert.ToString(GetDate(_forcastWeather.list[3].dt).DayOfWeek);
-            Forecast4TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[3].main.temp)) + "° C";
+            Forecast4TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[3].temp.day)) + "° C";
             Forecast4DescLabel.Content = _forcastWeather.list[3].weather[0].description;
             Forecast4Rectangle.Fill = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _forcastWeather.list[3].weather[0].icon + ".png")));
 
             //Day5 Forecast
-            Forecast5DayLabel.Content = string.Format("{0}",GetDate(_forcastWeather.list[4].dt).DayOfWeek);
-            Forecast5TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[4].main.temp)) + "° C";
+            Forecast5DayLabel.Content = Convert.ToString(GetDate(_forcastWeather.list[4].dt).DayOfWeek);
+            Forecast5TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[4].temp.day)) + "° C";
             Forecast5DescLabel.Content = _forcastWeather.list[4].weather[0].description;
             Forecast5Rectangle.Fill = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _forcastWeather.list[4].weather[0].icon + ".png")));
+
+            //Day6 Forecast
+            Forecast6DayLabel.Content = Convert.ToString(GetDate(_forcastWeather.list[5].dt).DayOfWeek);
+            Forecast6TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[5].temp.day)) + "° C";
+            Forecast6DescLabel.Content = _forcastWeather.list[5].weather[0].description;
+            Forecast6Rectangle.Fill = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _forcastWeather.list[5].weather[0].icon + ".png")));
+
+            //Day7 Forecast
+            Forecast7DayLabel.Content = Convert.ToString(GetDate(_forcastWeather.list[6].dt).DayOfWeek);
+            Forecast7TempLabel.Content = Math.Round(Convert.ToDouble(_forcastWeather.list[6].temp.day)) + "° C";
+            Forecast7DescLabel.Content = _forcastWeather.list[6].weather[0].description;
+            Forecast7Rectangle.Fill = new ImageBrush(new BitmapImage(new Uri(@"http://openweathermap.org/img/w/" + _forcastWeather.list[6].weather[0].icon + ".png")));
+
+            //homeTab.Header = new ImageBrush(new BitmapImage(new Uri(@"https://cdn3.iconfinder.com/data/icons/streamline-icon-set-free-pack/48/Streamline-18-512.pngs")));
+            //FavTab.Header = new ImageSource(@"https://d30y9cdsu7xlg0.cloudfront.net/png/59948-200.png");
         }
 
         private async void refreshButton_Click_1(object sender, RoutedEventArgs e)
         {
             await (GetWeatherDetails(_allWeather.name));
         }
-
         DateTime GetDate(double miliseconds)
         {
             DateTime day = new System.DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).ToLocalTime();

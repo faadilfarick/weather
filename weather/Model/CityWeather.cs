@@ -27,7 +27,7 @@ namespace weather.Model
         }
         static public string passCityNameForcast(string City)
         {
-            const string byCityNameForcast = @"http://api.openweathermap.org/data/2.5/forecast?q={0},&units=metric&appid=6b10c51dd696fece6817ad9d8e9b6936";
+            const string byCityNameForcast = @"http://api.openweathermap.org/data/2.5/forecast/daily?q={0},&units=metric&appid=542ffd081e67f4512b705f89d2a611b2";
             string city = City;
             string cityNameForcast = string.Format(byCityNameForcast, city);
             return cityNameForcast;
