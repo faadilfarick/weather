@@ -201,7 +201,7 @@ namespace weather
         {
             if (favouriteComboBox.SelectedIndex == -1)
             {
-                await this.ShowMessageAsync("Not Selected", "Favouriye City not Selected or not Available");
+                await this.ShowMessageAsync("Not Selected", "Favourite City not Selected or not Available");
             }
             else
             {
@@ -232,7 +232,7 @@ namespace weather
             }
             catch
             {
-                homeTab.Header = "Home";
+                homeTab.Header = "Hom";
                 FavTab.Header = "Fav";
                 await this.ShowMessageAsync("Not Connected", message: "Unable to Connect to Internet! Please check your connection");
             }
