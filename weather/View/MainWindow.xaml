@@ -26,7 +26,7 @@
     <Grid x:Name="mainGrid" Background="#FFD3CACA">
 
         <TabControl HorizontalAlignment="Left" Width="87" TabStripPlacement="Left" Background="#FFD3CACA" x:Name="tabcontrol">
-            <TabItem x:Name="homeTab" TabIndex="1">
+            <TabItem x:Name="homeTab" TabIndex="1" Margin="0,0,0,-35" Background="#FF04BBFF">
                 <TabItem.Header>
                     <Image Width="50" Source="https://cdn3.iconfinder.com/data/icons/streamline-icon-set-free-pack/48/Streamline-18-512.png"/>
                 </TabItem.Header>
@@ -53,47 +53,48 @@
                     <Button x:Name="setCurrentCityButton" Content="Set as Launch City" HorizontalAlignment="Left" Margin="646,61,0,0" VerticalAlignment="Top" Width="133" Click="setCurrentCityButton_Click" Background="{x:Null}" Foreground="White" BorderBrush="#FF2E6CF0"/>
                     <Button x:Name="setFavouriteButton" Content="" HorizontalAlignment="Left" Margin="262,44,0,0" VerticalAlignment="Top" Width="59" Click="setFavouriteButton_Click" Foreground="{x:Null}" BorderBrush="{x:Null}" Height="55" Background="{x:Null}"/>
                     <Button x:Name="refreshButton" Content="Button" HorizontalAlignment="Left" Margin="262,104,0,0" VerticalAlignment="Top" Width="59" Height="55" Foreground="{x:Null}" BorderBrush="{x:Null}" Background="{x:Null}" Click="refreshButton_Click"/>
-                    <Label x:Name="Forecast1DayLabel" Content="Label" HorizontalAlignment="Left" Margin="7,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast1TempLabel" Content="Label" HorizontalAlignment="Left" Margin="7,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast1DescLabel" Content="Label" HorizontalAlignment="Left" Margin="7,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast1DayLabel" Content="" HorizontalAlignment="Left" Margin="7,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast1TempLabel" Content="" HorizontalAlignment="Left" Margin="7,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast1DescLabel" Content="" HorizontalAlignment="Left" Margin="7,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                     <Rectangle x:Name="Forecast1Rectangle" HorizontalAlignment="Left" Height="53" Margin="6,294,0,0" VerticalAlignment="Top" Width="61"/>
-                    <Label x:Name="Forecast2DayLabel" Content="Label" HorizontalAlignment="Left" Margin="119,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast2TempLabel" Content="Label" HorizontalAlignment="Left" Margin="119,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast2DescLabel" Content="Label" HorizontalAlignment="Left" Margin="119,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast2DayLabel" Content="" HorizontalAlignment="Left" Margin="119,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast2TempLabel" Content="" HorizontalAlignment="Left" Margin="119,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast2DescLabel" Content="" HorizontalAlignment="Left" Margin="119,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                     <Rectangle x:Name="Forecast2Rectangle" HorizontalAlignment="Left" Height="53" Margin="118,294,0,0" VerticalAlignment="Top" Width="61"/>
-                    <Label x:Name="Forecast3DayLabel" Content="Label" HorizontalAlignment="Left" Margin="234,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast3TempLabel" Content="Label" HorizontalAlignment="Left" Margin="234,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast3DescLabel" Content="Label" HorizontalAlignment="Left" Margin="234,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast3DayLabel" Content="" HorizontalAlignment="Left" Margin="234,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast3TempLabel" Content="" HorizontalAlignment="Left" Margin="234,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast3DescLabel" Content="" HorizontalAlignment="Left" Margin="234,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                     <Rectangle x:Name="Forecast3Rectangle" HorizontalAlignment="Left" Height="53" Margin="233,294,0,0" VerticalAlignment="Top" Width="61"/>
-                    <Label x:Name="Forecast4DayLabel" Content="Label" HorizontalAlignment="Left" Margin="348,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast4TempLabel" Content="Label" HorizontalAlignment="Left" Margin="348,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast4DescLabel" Content="Label" HorizontalAlignment="Left" Margin="348,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast4DayLabel" Content="" HorizontalAlignment="Left" Margin="348,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast4TempLabel" Content="" HorizontalAlignment="Left" Margin="348,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast4DescLabel" Content="" HorizontalAlignment="Left" Margin="348,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                     <Rectangle x:Name="Forecast4Rectangle" HorizontalAlignment="Left" Height="53" Margin="346,294,0,0" VerticalAlignment="Top" Width="61"/>
-                    <Label x:Name="Forecast5DayLabel" Content="Label" HorizontalAlignment="Left" Margin="461,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast5TempLabel" Content="Label" HorizontalAlignment="Left" Margin="461,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast5DescLabel" Content="Label" HorizontalAlignment="Left" Margin="461,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast5DayLabel" Content="" HorizontalAlignment="Left" Margin="461,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast5TempLabel" Content="" HorizontalAlignment="Left" Margin="461,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast5DescLabel" Content="" HorizontalAlignment="Left" Margin="461,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                     <Rectangle x:Name="Forecast5Rectangle" HorizontalAlignment="Left" Height="53" Margin="460,294,0,0" VerticalAlignment="Top" Width="61"/>
                     <Label x:Name="dailyLabel" Content="________Daily_____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________" HorizontalAlignment="Left" Margin="6,232,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontSize="14"/>
-                    <Label x:Name="Forecast6DayLabel" Content="Label" HorizontalAlignment="Left" Margin="580,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast6TempLabel" Content="Label" HorizontalAlignment="Left" Margin="580,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast6DescLabel" Content="Label" HorizontalAlignment="Left" Margin="580,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast6DayLabel" Content="" HorizontalAlignment="Left" Margin="580,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast6TempLabel" Content="" HorizontalAlignment="Left" Margin="580,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast6DescLabel" Content="" HorizontalAlignment="Left" Margin="580,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                     <Rectangle x:Name="Forecast6Rectangle" HorizontalAlignment="Left" Height="53" Margin="579,294,0,0" VerticalAlignment="Top" Width="61"/>
-                    <Label x:Name="Forecast7DayLabel" Content="Label" HorizontalAlignment="Left" Margin="695,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast7TempLabel" Content="Label" HorizontalAlignment="Left" Margin="695,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-                    <Label x:Name="Forecast7DescLabel" Content="Label" HorizontalAlignment="Left" Margin="695,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast7DayLabel" Content="" HorizontalAlignment="Left" Margin="695,272,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast7TempLabel" Content="" HorizontalAlignment="Left" Margin="695,341,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="Forecast7DescLabel" Content="" HorizontalAlignment="Left" Margin="695,365,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
                     <Rectangle x:Name="Forecast7Rectangle" HorizontalAlignment="Left" Height="53" Margin="694,294,0,0" VerticalAlignment="Top" Width="61"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="FavTab" FontSize="10" Margin="0,20,0,-57" BorderBrush="#CCFF0000" TabIndex="2">
+            <TabItem x:Name="FavTab" FontSize="10" Margin="0,20,0,-251" BorderBrush="#CCFF0000" TabIndex="2" Background="#FF0074FF">
                 <TabItem.Header>
-                    <Image Width="50" Source="https://d30y9cdsu7xlg0.cloudfront.net/png/59948-200.png" Margin="0,0,0,396"/>
+                    <Image Width="50" Source="https://d30y9cdsu7xlg0.cloudfront.net/png/59948-200.png" Margin="0,0,0,773"/>
                 </TabItem.Header>
-                <Grid x:Name="favUpperGrid" Margin="-3,0,-802,-7" Background="#FF3C3434">
+                <Grid x:Name="favUpperGrid" Margin="0,0,-802,-7" Background="#FF3C3434">
                     <ComboBox x:Name="favouriteComboBox" HorizontalAlignment="Left" Margin="50,49,0,0" VerticalAlignment="Top" Width="252" Background="{x:Null}" BorderBrush="#FF2E6CF0" Foreground="#FF2E6CF0"/>
                     <Button x:Name="goFavouriteButton" Content="Go" HorizontalAlignment="Left" Margin="309,47,0,0" VerticalAlignment="Top" Width="119" BorderBrush="Black" Background="{x:Null}" Foreground="Black" FontSize="12" Click="goFavouriteButton_Click"/>
                     <Label Content="Select from Favourites" HorizontalAlignment="Left" Margin="46,23,0,0" VerticalAlignment="Top" Width="162" Background="{x:Null}" BorderBrush="#FF2E6CF0" FontSize="12" Foreground="White"/>
                 </Grid>
             </TabItem>
+            
         </TabControl>
 
 

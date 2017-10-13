@@ -48,23 +48,25 @@ namespace weather
                 //GetWeatherDetails of the current City By calling Get Weather Details Methods
                 await GetWeatherDetails(CurrentCity.GetCurrentCity());
             }
-            catch { }                       
-            
-            //Timer Setup for reshreshing the weather details of the city displayed each hour
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Tick += Timer_Tick;
-            timer.Interval = TimeSpan.FromHours(1);
-            timer.Start();            
-
+            catch { }
             //Call GetFavourite Cities Method
             getFavouriteCities();
             //Set Favourites button icon according to favourited or not
             SetFavouriteButtonIcon();
             refreshButton.Background = new ImageBrush(new BitmapImage(new Uri(@"http://downloadicons.net/sites/default/files/refresh-button-icon-56615.png")));
+           
+            //Timer Setup for reshreshing the weather details of the city displayed each hour
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += Timer_Tick;
+            timer.Interval = TimeSpan.FromHours(1);
+            timer.Start();
         }
+        //REsfreshing the weather details according to the timer
         async void Timer_Tick(object sender, EventArgs e)
         {
-            await GetWeatherDetails(_allWeather.name);
+            tabcontrol.SelectedIndex = 1;
+            await (GetWeatherDetails(_allWeather.name));
+            tabcontrol.SelectedIndex = 0;
             //MessageBox.Show("timer ran");
         }
         //Searching for a City
@@ -72,7 +74,7 @@ namespace weather
         {
             if (searchTextBox.Text == "")
             {
-                MessageBox.Show("Please Enter City Name");
+                this.ShowMessageAsync("Empty!","Please Enter City Name");
             }
             else
             {
@@ -81,7 +83,10 @@ namespace weather
                 {
                     await GetWeatherDetails(searchTextBox.Text);
                 }
-                catch{}
+                catch
+                {
+                    
+                }
             }
             SetFavouriteButtonIcon();
         }
@@ -227,6 +232,8 @@ namespace weather
             }
             catch
             {
+                homeTab.Header = "Home";
+                FavTab.Header = "Fav";
                 await this.ShowMessageAsync("Not Connected", message: "Unable to Connect to Internet! Please check your connection");
             }
 
